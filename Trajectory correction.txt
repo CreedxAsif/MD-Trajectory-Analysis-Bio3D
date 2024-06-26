@@ -9,7 +9,7 @@ After successful MD simulation
 
 #Do trajectory correction using 
 
-> gmx trjconv -s ../md.tpr -f md.xtc -o md_center.xtc -center -pbc -ur mol -ur compact
+> gmx trjconv -s ../md.tpr -f md.xtc -o md_center.xtc -center -pbc mol -ur compact
 
 Select: protein #for centring
 Select: system # for output
