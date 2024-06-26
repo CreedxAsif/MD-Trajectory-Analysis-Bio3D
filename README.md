@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This repository contains documentation and example scripts for performing molecular dynamics (MD) trajectory analysis using the Bio3D package in R. Bio3D is an R package that provides tools for the analysis of bimolecular structure, sequence, and molecular dynamics trajectories.
+This repository contains documentation and example scripts for performing molecular dynamics (MD) trajectory analysis using the Bio3D package in R. Bio3D is an R package that provides tools for the analysis of biomolecular structure, sequence, and molecular dynamics trajectories.
 
 After successful MD simulation, 
 Create a new folder named analysis within the working folder
