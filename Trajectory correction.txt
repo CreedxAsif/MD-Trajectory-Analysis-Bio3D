@@ -1,0 +1,34 @@
+MD Data Analysis using Bio3D 
+
+After successful MD simulation
+ 
+#Create a new folder named analysis within the working folder
+
+> mkdir analysis
+> cd analysis
+
+#Do trajectory correction using 
+
+> gmx trjconv -s ../md.tpr -f md.xtc -o md_center.xtc -center -pbc -ur mol -ur compact
+
+Select: protein #for centring
+Select: system # for output
+
+#collect the initial structure
+
+> gmx trjconv -s ../md.tpr -f md_center.xtc -o start.gro -dump 0 
+
+> gmx trjconv -s ../md.tpr -f md_center.xtc -o start.pdb -dump 0 
+                     (or) 
+> gmx editconf -f start.gro -o start.pdb
+
+[Note: you can either convert start.gro into start.pdb using gmx editconf, or directly download the start.pdb from the trajectory using -dump 0] 
+
+#trajectory conversion
+
+> mdconvert md_center.xtc -t md.gro -o md.dcd
+
+#Required files prior to do analysis using Bio3D
+
+1) md.dcd
+2) Start.pdb
