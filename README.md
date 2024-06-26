@@ -1,14 +1,18 @@
 # MD-Trajectory-Analysis-Bio3D
 
+## Introduction
+
+This repository contains documentation and example scripts for performing molecular dynamics (MD) trajectory analysis using the Bio3D package in R. Bio3D is an R package that provides tools for the analysis of bimolecular structure, sequence, and molecular dynamics trajectories.
+
 After successful MD simulation, 
 Create a new folder named analysis within the working folder
 
 > mkdir analysis
-> 
+
 > cd analysis
 
 ### Trajectory correction 
-> gmx trjconv -s ../md.tpr -f ../md.xtc -o md_center.xtc -center -pbc -ur mol -ur compact
+> gmx trjconv -s ../md.tpr -f ../md.xtc -o md_center.xtc -center -pbc mol -ur compact
 
 Select: protein
 
@@ -86,7 +90,7 @@ Print the trimmed trajectory coordinates
 
 > plot.rmsf(rf)
 
-### component Analysis (PCA)
+### Principal Component Analysis (PCA)
 
 > pc<-pca.xyz(protlig_dcd)
 
@@ -97,3 +101,17 @@ Print the trimmed trajectory coordinates
 > dc<-dccm.xyz(protlig_dcd)
 
 > plot.dccm(dc)
+
+<img width="850" alt="DCCM" src="https://github.com/CreedxAsif/MD-Trajectory-Analysis-Bio3D/assets/122298899/3f6b4526-05f5-4f7a-be0a-951b4ab1c627">
+
+## Acknowledgements
+
+The MD-Trajectory-Analysis-Bio3D was documented by Mohamed Asif. 
+
+Feel free to contribute, report issues, or suggest enhancements by creating a [GitHub Issue](https://github.com/CreedxAsif/MD-Trajectory-Analysis-Bio3D/issues) or submitting a pull request.
+
+Enjoy analyzing molecular dynamics trajectories with Bio3D! 😉
+
+## Citation
+
+1) Grant, B. J., Skjærven, L., & Yao, X. (2020). The Bio3D packages for structural bioinformatics. Protein Science, 30(1), 20–30. https://doi.org/10.1002/pro.3923
