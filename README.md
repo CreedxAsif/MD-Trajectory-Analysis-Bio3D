@@ -105,7 +105,14 @@ Print the trimmed trajectory coordinates
 
 > pc<-pca.xyz(protdcd)
 
-> plot.pca(pc)
+> plot(pc,col=bwr.colors(nrow(dcd)))
+
+> dev.copy(jpeg, filename="pca,jpg")
+
+> dev.off()
+
+![pca](https://github.com/CreedxAsif/MD-Trajectory-Analysis-Bio3D/assets/122298899/66b4f598-d38b-4af5-875e-8c6a1df8776c)
+
 
 ### Dynamic Cross Correlation Matrix (DCCM)
 
