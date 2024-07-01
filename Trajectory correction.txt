@@ -1,6 +1,6 @@
 MD Data Analysis using Bio3D 
 
-After successful MD simulation
+After a successful MD simulation
  
 #Create a new folder named analysis within the working folder
 
@@ -9,26 +9,25 @@ After successful MD simulation
 
 #Do trajectory correction using 
 
-> gmx trjconv -s ../md.tpr -f md.xtc -o md_center.xtc -center -pbc mol -ur compact
+> gmx trjconv -s ../md.tpr -f ../md.xtc -o md_center.xtc -center -pbc mol -ur compact
 
-Select: protein #for centring
+Select: protein #for centering
 Select: system # for output
 
 #collect the initial structure
 
-> gmx trjconv -s ../md.tpr -f md_center.xtc -o start.gro -dump 0 
-
-> gmx trjconv -s ../md.tpr -f md_center.xtc -o start.pdb -dump 0 
+> gmx trjconv -s ../md.tpr -f md_center.xtc -o md.gro -pbc mol -ur compact -center -dump 0
+> gmx trjconv -s ../md.tpr -f md_center.xtc -o md.pdb -pbc mol -ur compact -center -dump 0
                      (or) 
-> gmx editconf -f start.gro -o start.pdb
+> gmx editconf -f md.gro -o start.pdb
 
-[Note: you can either convert start.gro into start.pdb using gmx editconf, or directly download the start.pdb from the trajectory using -dump 0] 
+[Note: you can either convert md.gro into md.pdb using gmx editconf, or directly download the md.pdb from the trajectory using -dump 0] 
 
 #trajectory conversion
 
 > mdconvert md_center.xtc -t md.gro -o md.dcd
 
-#Required files prior to do analysis using Bio3D
+#Required files prior to perform the analysis using Bio3D
 
 1) md.dcd
-2) Start.pdb
+2) md.pdb
