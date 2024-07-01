@@ -4,7 +4,7 @@
 
 This repository contains documentation and example scripts for performing molecular dynamics (MD) trajectory analysis using the Bio3D package in R. Bio3D is an R package that provides tools for the analysis of biomolecular structure, sequence, and molecular dynamics trajectories.
 
-After successful MD simulation, 
+After a successful MD simulation, 
 Create a new folder named analysis within the working folder
 
 > mkdir analysis
@@ -26,7 +26,7 @@ select: protein
 
 select: system
 
-> gmx trjconv -s ../md.tpr -f md_center.xtc -o start.pdb -pbc mol -ur compact -center -dump 0
+> gmx trjconv -s ../md.tpr -f md_center.xtc -o md.pdb -pbc mol -ur compact -center -dump 0
 
 select: protein
 
