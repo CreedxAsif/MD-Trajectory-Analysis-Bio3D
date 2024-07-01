@@ -12,27 +12,36 @@ Create a new folder named analysis within the working folder
 > cd analysis
 
 ### Trajectory correction 
-> gmx trjconv -s ../md.tpr -f ../md.xtc -o md_center.xtc -center -pbc mol -ur compact
+> gmx trjconv -s ../md.tpr -f ../md.xtc -o md_center.xtc -center -pbc mol -ur compact -center
 
 Select: protein
 
 Select: system
 
 collect the initial structure
-> gmx trjconv -s ../md.tpr -f md_center.xtc -o start.gro -dump 0
-> 
-> gmx trjconv -s ../md.tpr -f md_center.xtc -o start.pdb -dump 0 
-                     (or) 
-> gmx editconf -f start.gro -o start.pdb
 
-[Note: you can either convert start.gro into start.pdb using gmx editconf, or directly download the start.pdb from the trajectory using -dump 0 as above mentioned] 
+> gmx trjconv -s ../md.tpr -f ../md.xtc -o md.gro -pbc mol -ur compact -center -dump 0
+
+select: protein
+
+select: system
+
+> gmx trjconv -s ../md.tpr -f md_center.xtc -o start.pdb -pbc mol -ur compact -center -dump 0
+
+select: protein
+
+select: system
+                     (or) 
+> gmx editconf -f md.gro -o md.pdb
+
+[Note: you can either convert md.gro into md.pdb using gmx editconf, or directly download the md.pdb from the trajectory using -dump 0 as above mentioned] 
 
 ## Trajectory conversion
 > mdconvert md_center.xtc -t md.gro -o md.dcd
 
 ## Required files prior to do analysis using Bio3D
 1) md.dcd
-2) Start.pdb
+2) md.pdb
 
 ## Bio3D installation
 
@@ -42,7 +51,7 @@ collect the initial structure
 
 ## Trajectory Preparation
 
-> pdb<-read.pdb("start.pdb")
+> pdb<-read.pdb("md.pdb")
 
 > dcd<-read.dcd("md.dcd", cell=FALSE)
 
@@ -50,55 +59,57 @@ Select CA atoms of the protein
 
 > ca.inds<-atom.select(pdb,"protein",elety="CA")
 
-Select all atoms of the ligand (assuming the ligand residue name is 'LIG', if not change it accordingly)
+Fit the trajectory to the selection of protein atoms
 
-> ligand.inds<-atom.select(pdb, "ligand", rename="LIG")
+> trj<-fit.xyz(pdb$xyz, dcd, fixed.inds=ca.inds$xyz, mobile.inds=ca.inds$xyz)
 
-Combine protein CA and ligand atom indices
+Trim the PDB to include only the selected protein CA atoms
 
-> combined.inds<-c(ca.inds$xyz, ligand.inds$xyz)
+> protpdb<-trim.pdb(pdb,ca.inds)
 
-Fit the trajectory to the combined selection of protein and ligand atoms
-
-> trj<-fit.xyz(pdb$xyz, dcd, fixed.inds=combined.inds, mobile.inds=combined.inds)
-
-Trim the PDB to include only the selected protein CA and ligand atoms
-
-> protlig_pdb<-trim.pdb(pdb, atom.select(pdb, "combined", elety="CA", resname="LIG"))
-
-> protlig_dcd<-trim(trj, col.inds=combined.inds)
+> protdcd<-trim(trj, col.inds=ca.inds$xyz)
 
 Print the trimmed PDB coordinates
 
-> print(protlig_pdb$xyz)
+> print(protpdb$xyz)
 
 Print the trimmed trajectory coordinates
 
-> print(protlig_dcd)
+> print(protdcd)
 
 ## Trajectory Analysis
 
 ### RMSD
 
-> rd<-rmsd(protlig_pdb, protlig_dcd, fit=TRUE, ncore=1)
+> rd<-rmsd(protpdb, protdcd, fit=TRUE, ncore=1)
 
-> plot.rmsd(rd)
+> plot(rd, typ='l',ylab="RMSD (Å)",xlab="Frame No.")
+
+> points(lowess(rd), typ='l', col="red", lty=1, lwd=3)
+
+> dev.copy(jpeg,filename="rmsd.jpg")
+
+> dev.off() 
 
 ### RMSF
 
-> rf<-rmsf(protlig_dcd)
+> rf<-rmsf(protdcd)
 
-> plot.rmsf(rf)
+> plot(rf, ylab="RMSF (Å)",xlab="Residue")
+
+>dev.copy(jpeg,filename="rmsf.jpg") 
+
+> dev.off()
 
 ### Principal Component Analysis (PCA)
 
-> pc<-pca.xyz(protlig_dcd)
+> pc<-pca.xyz(protdcd)
 
 > plot.pca(pc)
 
 ### Dynamic Cross Correlation Matrix (DCCM)
 
-> dc<-dccm.xyz(protlig_dcd)
+> dc<-dccm.xyz(protdcd)
 
 > plot.dccm(dc)
 
