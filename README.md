@@ -26,7 +26,7 @@ select: protein
 
 select: system
 
-> gmx trjconv -s ../md.tpr -f md_center.xtc -o md.pdb -pbc mol -ur compact -center -dump 0
+> gmx trjconv -s ../md.tpr -f ../md.xtc -o md.pdb -pbc mol -ur compact -center -dump 0
 
 select: protein
 
