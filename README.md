@@ -12,7 +12,7 @@ Create a new folder named analysis within the working folder
 > cd analysis
 
 ### Trajectory correction 
-> gmx trjconv -s ../md.tpr -f ../md.xtc -o md_center.xtc -center -pbc mol -ur compact -center
+> gmx trjconv -s ../md.tpr -f ../md.xtc -o md_center.xtc -center -pbc mol -ur compact
 
 Select: protein
 
